@@ -1,88 +1,21 @@
-Projeto de API de Jogos de Cassino
-Este projeto consiste no desenvolvimento do backend para dois populares jogos de cassino, Blackjack e Aviator, utilizando Python e FastAPI. A arquitetura foi projetada para ser modular, separando a lógica de cada jogo de sua respectiva interface de API.
+🎲 Projeto de API de Jogos de Cassino: Blackjack & AviatorEste projeto consiste no desenvolvimento do backend para dois populares jogos de cassino, Blackjack e Aviator, utilizando Python e FastAPI. A arquitetura foi projetada para ser modular, separando a lógica de cada jogo de sua respectiva interface de API.👥 Integrantes do Grupo: Nomes - RM / Augusto Oliveira - 562080 / Felipe Cabral - 561720 / Gabriel Tonelli - 564705 / Sofia Bueris - 565818 / Vinicius Adrian - 564962 ✨ FeaturesAPI para Blackjack: Implementação completa do clássico "21", onde o jogador compete contra o dealer.API para Aviator (Crash Game): Simulação do popular jogo de "crash", com apostas e cash out em tempo real.Arquitetura Modular: Lógica de jogo (*_logic.py) desacoplada da interface da API (main_*.py).Construído com FastAPI: APIs modernas, rápidas e com documentação automática (Swagger UI e ReDoc).🛠️ Tecnologias UtilizadasPython 3.7+FastAPI: Framework web para a construção das APIs.Uvicorn: Servidor ASGI para executar as aplicações.📂 Estrutura do ProjetoPara uma melhor organização, recomenda-se a seguinte estrutura de diretórios:/
+├── blackjack_api/
+│   ├── main.py             # Lógica da API do Blackjack
+│   └── blackjack_logic.py  # Regras e estado do jogo Blackjack
+│
+├── aviator_api/
+│   ├── main_aviator.py     # Lógica da API do Aviator
+│   └── aviator_logic.py    # Regras e estado do jogo Aviator
+│
+└── README.md
+🚀 Como Executar o Projeto1. Pré-requisitosAntes de começar, certifique-se de que você tem Python 3.7+ instalado.Primeiro, clone o repositório e instale as dependências necessárias:Bash# Clone este repositório (exemplo)
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
 
-Integrantes do Grupo:
-
-Augusto Oliveira / RM:562080
-
-Felipe Cabral / rm: 561720
-
-Gabriel Tonelli / rm:564705
-
-Sofia Bueris / rm: 565818
-
-Vinicius Adrian / rm: 564962
-
-📜 Descrição Geral
-O repositório contém duas aplicações FastAPI independentes:
-
-Blackjack API: Uma implementação do clássico jogo de cartas "21", onde o jogador compete contra o dealer.
-
-Aviator (Crash Game) API: Uma implementação do popular jogo de "crash", onde os jogadores apostam em um multiplicador crescente e devem sacar seus ganhos antes que ele "crashe".
-
-Ambas as APIs foram construídas para fornecer uma interface clara e funcional para um frontend, gerenciando o estado do jogo e as ações do usuário.
-
-🚀 Como Executar o Projeto
-Para executar qualquer um dos jogos, você precisará ter Python 3.7+ instalado.
-
-1. Pré-requisitos
-Instale as dependências necessárias. Ambas as aplicações utilizam as mesmas bibliotecas.
-
-Bash
-
+# Instale as bibliotecas
 pip install fastapi "uvicorn[standard]"
-2. Executando o Servidor de Blackjack
-Navegue até o diretório onde os arquivos main.py e blackjack_logic.py estão localizados e execute o seguinte comando no terminal:
-
-Bash
-
+2. Executando o ServidorVocê pode executar um jogo de cada vez.Para o Blackjack:Navegue até o diretório da API de Blackjack e inicie o servidor Uvicorn:Bashcd blackjack_api
 uvicorn main:app --reload
-O servidor da API de Blackjack estará disponível em http://127.0.0.1:8000.
-
-3. Executando o Servidor de Aviator
-Navegue até o diretório onde os arquivos main_aviator.py e aviator_logic.py estão localizados e execute o seguinte comando:
-
-Bash
-
+O servidor estará disponível em http://127.0.0.1:8000.Para o Aviator:Navegue até o diretório da API de Aviator e inicie o servidor:Bashcd aviator_api
 uvicorn main_aviator:app --reload
-O servidor da API de Aviator também estará disponível em http://127.0.0.1:8000.
-
-Nota: Como ambos os servidores estão configurados para rodar na mesma porta (8000), eles não podem ser executados simultaneamente. Certifique-se de parar um antes de iniciar o outro.
-
-🃏 Jogo 1: Blackjack
-A API de Blackjack simula um jogo com 6 baralhos. O jogador pode iniciar uma partida, pedir cartas (Hit) ou parar (Stand). O dealer segue a regra padrão de parar em 17 ou mais.
-
-Lógica do Jogo (blackjack_logic.py)
-Baralho: Gerencia a criação e o embaralhamento de múltiplos baralhos.
-
-JogoBlackjack: Classe principal que encapsula toda a lógica do jogo:
-
-Distribuição de cartas.
-
-Cálculo dos valores das mãos, com tratamento especial para o Ás (pode valer 1 ou 11).
-
-Gerenciamento de status do jogo (Aguardando Jogada, Jogador Vence, Dealer Vence, Estourou, etc.).
-
-Implementação das ações pedir_carta (Hit) e parar (Stand).
-
-Lógica para o turno do dealer.
-
-A API de Blackjack, definida no arquivo main.py, oferece endpoints claros para interagir com o jogo. Utilizando o método POST no endpoint /iniciar, um jogador pode começar 
-
-uma nova partida, o que distribui as cartas e retorna o estado inicial. A ação de pedir uma nova carta (Hit) é realizada através de uma requisição POST para /pedir_carta, 
-
-que atualiza o estado do jogo. Quando o jogador decide encerrar sua jogada (Stand), ele envia uma requisição POST para /parar, o que aciona a lógica do dealer para 
-
-determinar o vencedor. A qualquer momento, o estado completo da partida, incluindo mãos, valores e status, pode ser consultado com uma chamada GET ao endpoint /status.
-
-O segundo jogo é o Aviator, uma simulação de "crash game" onde um multiplicador aumenta progressivamente e o jogador precisa sacar seus ganhos antes que ele pare 
-
-aleatoriamente. A lógica, contida em aviator_logic.py, é gerenciada pela classe JogoAviator, que gera um ponto de "crash" aleatório para cada rodada, controla os status do 
-
-jogo como "Aguardando Apostas" e "Em Voo", e simula o aumento do multiplicador com base no tempo. A API correspondente, em main_aviator.py, permite que o jogador registre 
-
-uma aposta para a próxima rodada através de uma requisição POST para /aposta, enviando o valor no corpo da requisição. Após a aposta, o voo é iniciado com um POST para 
-
-/iniciar_voo. Para realizar o "Cash Out", o jogador envia uma requisição POST para /sacar, e o ganho é calculado com base no multiplicador atual. O estado da rodada, 
-
-incluindo o multiplicador e o status, pode ser verificado a qualquer momento através de uma chamada GET para /status.
+O servidor também estará disponível em http://127.0.0.1:8000.⚠️ Atenção: Como ambos os servidores estão configurados para rodar na porta 8000, eles não podem ser executados simultaneamente. Certifique-se de parar um (Ctrl+C no terminal) antes de iniciar o outro.🃏 Jogo 1: API do BlackjackA API de Blackjack simula um jogo com 6 baralhos. O jogador pode iniciar uma partida, pedir cartas (Hit) ou parar (Stand). O dealer segue a regra padrão de parar em 17 ou mais.Lógica do Jogo (blackjack_logic.py)A classe JogoBlackjack encapsula toda a lógica do jogo:Gerenciamento de múltiplos baralhos.Distribuição de cartas para o jogador e o dealer.Cálculo dos valores das mãos, com tratamento especial para o Ás (1 ou 11).Controle de status do jogo: Aguardando Jogada, Jogador Vence, Dealer Vence, Empate, Estourou.Implementação das ações pedir_carta (Hit) e parar (Stand).Endpoints da APIMétodoEndpointDescriçãoPOST/iniciarInicia uma nova partida, distribui as cartas e retorna o estado inicial do jogo.POST/pedir_cartaO jogador pede uma nova carta (Hit). A API atualiza a mão do jogador e o status do jogo.POST/pararO jogador encerra sua jogada (Stand). O dealer joga sua mão e o vencedor é determinado.GET/statusRetorna o estado completo da partida atual (mãos, valores, status).✈️ Jogo 2: API do AviatorUma simulação de "crash game" onde um multiplicador aumenta progressivamente. O jogador deve sacar seus ganhos (Cash Out) antes que o multiplicador pare aleatoriamente (Crash).Lógica do Jogo (aviator_logic.py)A classe JogoAviator gerencia as rodadas do jogo:Gera um ponto de "crash" aleatório para cada rodada.Controla os status do jogo: Aguardando Apostas, Em Voo, Crash.Simula o aumento do multiplicador com base no tempo decorrido.Calcula os ganhos no momento do Cash Out.Endpoints da APIMétodoEndpointCorpo da Requisição (JSON)DescriçãoPOST/aposta{"valor": float}Registra a aposta do jogador para a próxima rodada.POST/iniciar_vooNenhumInicia a rodada. O status muda para "Em Voo" e o multiplicador começa a subir.POST/sacarNenhumRealiza o "Cash Out". O ganho é calculado com base no multiplicador atual. Retorna o valor ganho.GET/statusNenhumRetorna o estado atual da rodada, incluindo o multiplicador, status e apostas.
