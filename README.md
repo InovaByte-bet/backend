@@ -1,21 +1,41 @@
-🎲 Projeto de API de Jogos de Cassino: Blackjack & AviatorEste projeto consiste no desenvolvimento do backend para dois populares jogos de cassino, Blackjack e Aviator, utilizando Python e FastAPI. A arquitetura foi projetada para ser modular, separando a lógica de cada jogo de sua respectiva interface de API.👥 Integrantes do Grupo: Nomes - RM / Augusto Oliveira - 562080 / Felipe Cabral - 561720 / Gabriel Tonelli - 564705 / Sofia Bueris - 565818 / Vinicius Adrian - 564962 ✨ FeaturesAPI para Blackjack: Implementação completa do clássico "21", onde o jogador compete contra o dealer.API para Aviator (Crash Game): Simulação do popular jogo de "crash", com apostas e cash out em tempo real.Arquitetura Modular: Lógica de jogo (*_logic.py) desacoplada da interface da API (main_*.py).Construído com FastAPI: APIs modernas, rápidas e com documentação automática (Swagger UI e ReDoc).🛠️ Tecnologias UtilizadasPython 3.7+FastAPI: Framework web para a construção das APIs.Uvicorn: Servidor ASGI para executar as aplicações.📂 Estrutura do ProjetoPara uma melhor organização, recomenda-se a seguinte estrutura de diretórios:/
-├── blackjack_api/
-│   ├── main.py             # Lógica da API do Blackjack
-│   └── blackjack_logic.py  # Regras e estado do jogo Blackjack
-│
-├── aviator_api/
-│   ├── main_aviator.py     # Lógica da API do Aviator
-│   └── aviator_logic.py    # Regras e estado do jogo Aviator
-│
-└── README.md
-🚀 Como Executar o Projeto1. Pré-requisitosAntes de começar, certifique-se de que você tem Python 3.7+ instalado.Primeiro, clone o repositório e instale as dependências necessárias:Bash# Clone este repositório (exemplo)
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+Projeto de API de Jogos de Cassino: Blackjack & Aviator
+Integrantes do Grupo:
 
-# Instale as bibliotecas
-pip install fastapi "uvicorn[standard]"
-2. Executando o ServidorVocê pode executar um jogo de cada vez.Para o Blackjack:Navegue até o diretório da API de Blackjack e inicie o servidor Uvicorn:Bashcd blackjack_api
-uvicorn main:app --reload
-O servidor estará disponível em http://127.0.0.1:8000.Para o Aviator:Navegue até o diretório da API de Aviator e inicie o servidor:Bashcd aviator_api
-uvicorn main_aviator:app --reload
-O servidor também estará disponível em http://127.0.0.1:8000.⚠️ Atenção: Como ambos os servidores estão configurados para rodar na porta 8000, eles não podem ser executados simultaneamente. Certifique-se de parar um (Ctrl+C no terminal) antes de iniciar o outro.🃏 Jogo 1: API do BlackjackA API de Blackjack simula um jogo com 6 baralhos. O jogador pode iniciar uma partida, pedir cartas (Hit) ou parar (Stand). O dealer segue a regra padrão de parar em 17 ou mais.Lógica do Jogo (blackjack_logic.py)A classe JogoBlackjack encapsula toda a lógica do jogo:Gerenciamento de múltiplos baralhos.Distribuição de cartas para o jogador e o dealer.Cálculo dos valores das mãos, com tratamento especial para o Ás (1 ou 11).Controle de status do jogo: Aguardando Jogada, Jogador Vence, Dealer Vence, Empate, Estourou.Implementação das ações pedir_carta (Hit) e parar (Stand).Endpoints da APIMétodoEndpointDescriçãoPOST/iniciarInicia uma nova partida, distribui as cartas e retorna o estado inicial do jogo.POST/pedir_cartaO jogador pede uma nova carta (Hit). A API atualiza a mão do jogador e o status do jogo.POST/pararO jogador encerra sua jogada (Stand). O dealer joga sua mão e o vencedor é determinado.GET/statusRetorna o estado completo da partida atual (mãos, valores, status).✈️ Jogo 2: API do AviatorUma simulação de "crash game" onde um multiplicador aumenta progressivamente. O jogador deve sacar seus ganhos (Cash Out) antes que o multiplicador pare aleatoriamente (Crash).Lógica do Jogo (aviator_logic.py)A classe JogoAviator gerencia as rodadas do jogo:Gera um ponto de "crash" aleatório para cada rodada.Controla os status do jogo: Aguardando Apostas, Em Voo, Crash.Simula o aumento do multiplicador com base no tempo decorrido.Calcula os ganhos no momento do Cash Out.Endpoints da APIMétodoEndpointCorpo da Requisição (JSON)DescriçãoPOST/aposta{"valor": float}Registra a aposta do jogador para a próxima rodada.POST/iniciar_vooNenhumInicia a rodada. O status muda para "Em Voo" e o multiplicador começa a subir.POST/sacarNenhumRealiza o "Cash Out". O ganho é calculado com base no multiplicador atual. Retorna o valor ganho.GET/statusNenhumRetorna o estado atual da rodada, incluindo o multiplicador, status e apostas.
+Augusto Oliveira / RM: 562080
+
+Felipe Cabral / RM: 561720
+
+Gabriel Tonelli / RM: 564705
+
+Sofia Bueris / RM: 565818
+
+Vinicius Adrian / RM: 564962
+
+Introdução
+Este projeto consiste no desenvolvimento do backend para dois populares jogos de cassino, Blackjack e Aviator, utilizando Python e o framework FastAPI. A arquitetura foi projetada para ser modular e eficiente, separando a lógica de cada jogo de sua respectiva interface de API. O objetivo é fornecer uma base sólida e funcional para ser consumida por um frontend.
+
+Descrição Geral
+O repositório contém duas aplicações FastAPI independentes, cada uma servindo um jogo específico:
+
+Blackjack API: Uma implementação do clássico jogo de cartas "21", onde o jogador compete contra o dealer (a mesa).
+
+Aviator (Crash Game) API: Uma implementação do popular jogo de "crash", onde os jogadores apostam em um multiplicador crescente e devem retirar seus ganhos antes que ele pare subitamente.
+
+Como Executar o Projeto
+Pré-requisitos: Para executar qualquer um dos jogos, você precisará ter o Python 3.7+ instalado em sua máquina. Em seguida, instale as dependências necessárias executando o seguinte comando no seu terminal: pip install fastapi "uvicorn[standard]"
+
+Executando o Servidor de Blackjack: Navegue até o diretório onde os arquivos main.py e blackjack_logic.py estão localizados e execute o comando: uvicorn main:app --reload O servidor da API de Blackjack estará disponível em http://127.0.0.1:8000.
+
+Executando o Servidor de Aviator: Navegue até o diretório onde os arquivos main_aviator.py e aviator_logic.py estão localizados e execute o comando: uvicorn main_aviator:app --reload O servidor da API de Aviator também estará disponível em http://127.0.0.1:8000.
+
+Nota Importante: Como ambos os servidores estão configurados para rodar na mesma porta (8000), eles não podem ser executados simultaneamente. Certifique-se de parar um servidor antes de iniciar o outro.
+
+Jogo 1: Detalhes do Blackjack
+A API do Blackjack simula uma partida com 6 baralhos. A lógica do jogo está concentrada no arquivo blackjack_logic.py, na classe JogoBlackjack. Esta classe gerencia a criação e o embaralhamento das cartas, a distribuição das mãos, o cálculo dos valores (tratando o Ás como 1 ou 11) e o gerenciamento dos status da partida (Aguardando Jogada, Jogador Vence, Dealer Vence, etc.). O dealer segue a regra padrão de parar ao atingir 17 pontos ou mais.
+
+A API, definida em main.py, oferece endpoints claros para a interação. Com um POST para /iniciar, uma nova partida é criada. A ação de pedir uma carta (Hit) é feita com um POST para /pedir_carta. Quando o jogador decide parar (Stand), ele envia um POST para /parar, o que aciona o turno do dealer para determinar o vencedor. A qualquer momento, o estado completo do jogo pode ser consultado com um GET para /status.
+
+Jogo 2: Detalhes do Aviator
+O Aviator é uma simulação de "crash game", onde um multiplicador de aposta aumenta progressivamente e pode parar a qualquer momento. A lógica, contida em aviator_logic.py, é gerenciada pela classe JogoAviator. Ela é responsável por gerar um ponto de "crash" aleatório para cada rodada, controlar os status do jogo ("Aguardando Apostas", "Em Voo") e simular o aumento do multiplicador com base no tempo.
+
+A API correspondente, em main_aviator.py, permite que o jogador registre sua aposta para a próxima rodada via POST em /aposta. Após as apostas, um POST para /iniciar_voo dá início à subida do multiplicador. Para garantir os ganhos, o jogador deve enviar um POST para /sacar (Cash Out) antes do "crash". O ganho é calculado com base no multiplicador no exato momento da retirada. O estado atual da rodada, incluindo o multiplicador, pode ser verificado com um GET em /status.
